@@ -11,9 +11,8 @@ class Alumno extends Model
 
 
     protected $fillable = [
-        'num_Control',
+        'Num_Control',
         'Nombre',
-        'semestre',
-        'Fecha_creacion'
+        'Semestre',
     ];
 }

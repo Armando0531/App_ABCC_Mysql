@@ -21,7 +21,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return view('alumnos.insertar');
+        return view('insertar');
     }
 
     /**
@@ -30,42 +30,59 @@ class AlumnoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'caja_num_Control'=> 'required',
-            'caja_Nombre'=> 'required',
-            'caja_semestre'=> 'required',
+            'Num_Control' => 'required|unique:alumnos,Num_Control', 
+            'Nombre' => 'required',
+            'Semestre' => 'required',
         ]);
+
+        Alumno::create($request->all());
+
+        return redirect()->route('alumnos.index')->with('success', 'Alumno creado correctamente');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Alumno $alumno)
+    public function show($Num_Control)
     {
+        $alumno = Alumno::where('Num_Control', $Num_Control)->firstOrFail();
         return view('mostrar', compact('alumno'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($Num_Control)
     {
-        $alumno = Alumno::find($id);
-        return view('edit', compact('alumno'));
+        $alumno = Alumno::where('Num_Control', $Num_Control)->firstOrFail();
+        return view('editar', compact('alumno'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Alumno $alumno)
+    public function update(Request $request, $Num_Control)
     {
-        //
+        $request->validate([
+            'Num_Control' => 'required|unique:alumnos,Num_Control,' . $Num_Control . ',Num_Control',
+            'Nombre' => 'required',
+            'Semestre' => 'required',
+        ]);
+
+        $alumno = Alumno::where('Num_Control', $Num_Control)->firstOrFail();
+        $alumno->update($request->all());
+
+        return redirect()->route('alumnos.index')->with('success', 'Alumno actualizado correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Alumno $alumno)
+    public function destroy($Num_Control)
     {
-        //
+        $alumno = Alumno::where('Num_Control', $Num_Control)->firstOrFail();
+        $alumno->delete();
+
+        return redirect()->route('alumnos.index')->with('success', 'Alumno eliminado correctamente');
     }
 }
