@@ -39,6 +39,7 @@
                     <td>{{ $alumno->Semestre }}</td>
                     <td>{{ $alumno->created_at->format('d/m/Y') }}</td>
                     <td>
+                        <a href="{{ route('alumnos.show', $alumno->Num_Control) }}" class="btn btn-info btn-sm">Ver</a>
                         <a href="{{ route('alumnos.edit', $alumno->Num_Control) }}" class="btn btn-primary btn-sm">Editar</a>
                         <form action="{{ route('alumnos.destroy', $alumno->Num_Control) }}" method="POST" class="d-inline">
                             @csrf

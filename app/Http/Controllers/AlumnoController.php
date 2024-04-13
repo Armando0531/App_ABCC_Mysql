@@ -32,7 +32,7 @@ class AlumnoController extends Controller
         $request->validate([
             'Num_Control' => 'required|unique:alumnos,Num_Control', 
             'Nombre' => 'required',
-            'Semestre' => 'required',
+            'Semestre' => 'required|numeric',
         ]);
 
         Alumno::create($request->all());
@@ -46,7 +46,7 @@ class AlumnoController extends Controller
     public function show($Num_Control)
     {
         $alumno = Alumno::where('Num_Control', $Num_Control)->firstOrFail();
-        return view('mostrar', compact('alumno'));
+        return view('ver', compact('alumno'));
     }
 
     /**
